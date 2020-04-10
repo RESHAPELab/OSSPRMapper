@@ -312,38 +312,114 @@ public class MainMapper {
 
 	private String filter_text(String str) {
 		// TODO Auto-generated method stub
-		String newstr = str;
+		String newstr = str.toLowerCase();
 		
 		ArrayList <String> yourList = new ArrayList();
-		//yourList.add("[ ]");
-		//yourList.add("[ x ]");
-		//yourList.add("[x]");
-		yourList.add("[ ] Change in CHANGELOG.md described");
-		yourList.add("[ ] Tests created for changes");
-		yourList.add("[ ] Manually tested changed features in running JabRef ");
-		yourList.add("[ ] Screenshots added in PR description");
-		yourList.add("[ ] Ensured that [the git commit message is a good one]");
-		yourList.add("[ ] Check documentation status");
+		yourList.add("[ ]");
+		yourList.add("[ x ]");
+		yourList.add("[x]");
+		yourList.add("[x ]");
+		yourList.add("[ x]");
+		yourList.add("[]");
+		yourList.add("[ ]");
+		yourList.add("[ x ]");
+		yourList.add("[x]");
+		yourList.add("[x ]");
+		yourList.add("[ x]");
+		yourList.add("[]");
+		yourList.add("[ ]");
+		yourList.add("[ x ]");
+		yourList.add("[x]");
+		yourList.add("[x ]");
+		yourList.add("[ x]");
+		yourList.add("[]");
+		yourList.add("[ ]");
+		yourList.add("[ x ]");
+		yourList.add("[x]");
+		yourList.add("[x ]");
+		yourList.add("[ x]");
+		yourList.add("[]");
+		yourList.add("[ ]");
+		yourList.add("[ x ]");
+		yourList.add("[x]");
+		yourList.add("[x ]");
+		yourList.add("[ x]");
+		yourList.add("[]");
+		yourList.add("[ ]");
+		yourList.add("[ x ]");
+		yourList.add("[x]");
+		yourList.add("[x ]");
+		yourList.add("[ x]");
+		yourList.add("[]");
+		yourList.add("[ ]");
+		yourList.add("[ x ]");
+		yourList.add("[x]");
+		yourList.add("[x ]");
+		yourList.add("[ x]");
+		yourList.add("[]");
+		yourList.add("[ ]");
+		yourList.add("[ x ]");
+		yourList.add("[x]");
+		yourList.add("[x ]");
+		yourList.add("[ x]");
+		yourList.add("[]");
+		yourList.add("[ ]");
+		yourList.add("[ x ]");
+		yourList.add("[x]");
+		yourList.add("[x ]");
+		yourList.add("[ x]");
+		yourList.add("[]");
+		yourList.add("[ ]");
+		yourList.add("[ x ]");
+		yourList.add("[x]");
+		yourList.add("[x ]");
+		yourList.add("[ x]");
+		yourList.add("[]");
+		yourList.add("Change in CHANGELOG.md described");
+		yourList.add("Tests created for changes");
+		yourList.add("Manually tested changed features in running JabRef ");
+		yourList.add("Screenshots added in PR description");
+		yourList.add("Ensured that [the git commit message is a good one]");
+		yourList.add("Check documentation status");
+		yourList.add("tests green?");
+		yourList.add("commits squashed?");
+		yourList.add("changes in pull request outlined? (what  why  ...)"); 
+		yourList.add("screenshots added");
 		
-		yourList.add("[x] Change in CHANGELOG.md described");
+		/*yourList.add("[x] Change in CHANGELOG.md described");
 		yourList.add("[x] Tests created for changes");
 		yourList.add("[x] Manually tested changed features in running JabRef ");
 		yourList.add("[x] Screenshots added in PR description");		
 		yourList.add("[x] Ensured that [the git commit message is a good one]");
 		yourList.add("[x] Check documentation status");
-
+		yourList.add("[x] tests green?");
+		yourList.add("[x] commits squashed?");
+		yourList.add("[x] changes in pull request outlined? (what  why  ...)"); 
+		
 		yourList.add("[ x ] Change in CHANGELOG.md described");
 		yourList.add("[ x ] Tests created for changes");
 		yourList.add("[ x ] Manually tested changed features in running JabRef ");
 		yourList.add("[ x ] Screenshots added in PR description");		
 		yourList.add("[ x ] Ensured that [the git commit message is a good one]");
 		yourList.add("[ x ] Check documentation status");
-
+		yourList.add("[ x ] tests green?");
+		yourList.add("[ x ] commits squashed?");
+		yourList.add("[ x ] changes in pull request outlined? (what  why  ...)"); */
+		
+		
 		yourList.add("(Issue created for outdated help page at");
 		yourList.add("for bigger UI changes");
 		
 		yourList.add("(https://github.com/joelparkerhenderson/git_commit_message)");
-		yourList.add("[help.jabref.org](https://github.com/JabRef/help.jabref.org/issues)?)");
+		yourList.add("[help.jabref.org]");
+		yourList.add("(https://github.com/JabRef/help.jabref.org/issues)?)");
+		
+		//- [ ] Change in CHANGELOG.md described
+		//- [ ] Tests created for changes
+		//- [ ] Manually tested changed features in running JabRef
+		//- [ ] Screenshots added in PR description (for bigger UI changes)
+		//- [ ] Ensured that [the git commit message is a good one](https://github.com/joelparkerhenderson/git_commit_message)
+		//- [ ] Check documentation status (Issue created for outdated help page at [help.jabref.org](https://github.com/JabRef/help.jabref.org/issues)?)
 		//"[ ]", "[ x ]", "[x]","change changelogmd described", "tests created changes", "manually tested changed features running jabref", "screenshots added pr description bigger ui changes", "ensured [ git commit message good one ]", "httpsgithubcomjoelparkerhendersongitcommitmessage", "check documentation status issue created outdated help page", "httpsgithubcomjabrefhelpjabreforgissues"]
 		//<!-- describe the changes you have made here: what  why  ...       Link issues by using the following pattern: [#333](https://github.com/JabRef/jabref/issues/333) or [koppor#49](https://github.com/koppor/jabref/issues/47).      The title of the PR must not reference an issue  because GitHub does not support autolinking there. -->  Fixes the delete action in the maintable branch and the  do you really want to delete the entry -dialog is converted to JavaFX. Moreover  a few lines of JavaFX-Swing-interaction code in  FXDialog  are deleted since it is no longer needed.  ----  - 
 			//[ ] Change in CHANGELOG.md described - [ ] Tests created for changes - [x] Manually tested changed features in running JabRef - [ ] Screenshots added in PR description (for bigger UI changes) - 
@@ -351,7 +427,7 @@ public class MainMapper {
 
 		boolean isFirst = true;
 		for (int i =0; i<yourList.size(); i++) {
-			String text = yourList.get(i);
+			String text = yourList.get(i).toLowerCase();
 			int pos = newstr.indexOf(text) ;
 			
 			if (pos != -1) {
@@ -442,7 +518,9 @@ public class MainMapper {
 		pr = pr.trim();
 		java = java.trim();
 		title = title.trim();
+		title = filter_text(title);
 		body = body.trim();
+		body = filter_text(body);
 		System.out.println("pr: "+pr+" , java: "+java + " title "+ title);
 		
 		isOk = true;
