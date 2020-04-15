@@ -10,6 +10,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import DAO.FileDAO;
 import model.Apriori;
@@ -309,13 +311,26 @@ public class MainMapper {
 			
 	}
 
-
+	private String removeUrl(String commentstr)
+	{
+		int tam = commentstr.length();
+	    String urlPattern = "((https?|ftp|gopher|telnet|file|Unsure|http):((//)|(\\\\))+[\\w\\d:#@%/;$()~_?\\+-=\\\\\\.&]*)";
+	    Pattern p = Pattern.compile(urlPattern,Pattern.CASE_INSENSITIVE);
+	    Matcher m = p.matcher(commentstr);
+	    StringBuffer sb = new StringBuffer(tam);
+	    while (m.find()) {
+	        m.appendReplacement(sb, "");
+	    }
+	    return sb.toString();
+	}
+	
 	private String filter_text(String str) {
 		// TODO Auto-generated method stub
 		String newstr = str.toLowerCase();
 		
 		ArrayList <String> yourList = new ArrayList();
 		yourList.add("[WIP]");
+		yourList.add("[wip]");
 		yourList.add("[ ]");
 		yourList.add("[ x ]");
 		yourList.add("[x]");
@@ -376,40 +391,120 @@ public class MainMapper {
 		yourList.add("[x ]");
 		yourList.add("[ x]");
 		yourList.add("[]");
-		yourList.add("Change in CHANGELOG.md described");
+		
+		yourList.add("Tests created for changes (if applicable)");
 		yourList.add("Tests created for changes");
-		yourList.add("Manually tested changed features in running JabRef ");
+		
 		yourList.add("Screenshots added in PR description");
-		yourList.add("Ensured that [the git commit message is a good one]");
-		yourList.add("Check documentation status");
-		yourList.add("tests green");
-		yourList.add("commits squashed");
-		yourList.add("changes in pull request outlined? (what  why  ...)"); 
 		yourList.add("screenshots added");
-		yourList.add("<!--  Describe the changes you have made here: what  why  ...  Link issues by using the following pattern: #333");
-		yourList.add("If you fixed a koppor issue  link it with following pattern");
+		
+		yourList.add("Ensured that [the git commit message is a good one]");
+		
+		yourList.add("Check documentation status");	
+		yourList.add("Checked documentation");
+		
+		yourList.add("tests green");
+
+		yourList.add("changes in pull request outlined? (what  why  ...)"); 
+		yourList.add("what why");
+
+		yourList.add("Changes in pull request outlined");
+
+		yourList.add("Commits squashed");	
+		
+		yourList.add("<!--  Describe the changes you have made here: what  why  ...  Link issues by using the following pattern: #");
+		yourList.add("<!-- describe the changes you have made here: what  why");
+		yourList.add("<!-- describe the changes you have made here:");
+		yourList.add("what  why");
+		yourList.add("...");       
+
+
+		yourList.add("Link issues by using the following pattern: [#333]");
+		yourList.add("link issues by using the following pattern:");
 		yourList.add("[koppor#47](https://github.com/koppor/jabref/issues/47");
+		
+		yourList.add("or [koppor#49]");
+		yourList.add("or [koppor#");
+		yourList.add("[koppor#");
+		yourList.add("https://github.com/JabRef/jabref/issues/333");
+		yourList.add("https://github.com/koppor/jabref/issues/47");      
+		yourList.add("https://github.com/jabref/jabref/issues/");
+		yourList.add("https://github.com/koppor/jabref/issues/"); 
+		yourList.add("https://github.com/jabref/jabref/pull/");
+		yourList.add("https://github.com/jabref/jabref/pull/");
+
+		yourList.add("[#");
+
+		
 		yourList.add("The title of the PR must not reference an issue  because GitHub does not support autolinking there. -->");
-		yourList.add("Fixes #5661");
+		yourList.add("The title of the PR must not reference an issue");  
+		yourList.add("because GitHub does not support autolinking there. -->");
+
+		
+		yourList.add("If you fixed a koppor issue  link it with following pattern");
+		yourList.add("If you fixed a koppor issue");
+		yourList.add("link it with following pattern");
+
+		yourList.add("fixes https://github.com/jabref/jabref/issues/");
+		yourList.add("fixes https://github.com/koppor/jabref/issues/");
+		yourList.add("Fixes #");
+		yourList.add("Fixes  #");
+		yourList.add("Fix #");
+		yourList.add("fix issue");
+		yourList.add("resolve #");
+		yourList.add("resolves #");
+		yourList.add("followup from #");
+		yourList.add("localizationupd");
+		yourList.add("githubusercont");
+
+		yourList.add("![image](https://user-images.githubusercontent.com/");
+		yourList.add("![image](https://user-images.githubusercontent.com/");
+		yourList.add("![modification](https://user-images.githubusercontent.com/");
+		yourList.add("![modification](https://user-images.githubusercontent.com/");
+		yourList.add("![grafik](https://user-images.githubusercontent.com/");
+		yourList.add("![grafik](https://user-images.githubusercontent.com/");
+		yourList.add("![littlebefore](https://user-images.githubusercontent.com/");
+		yourList.add("![preferences](https://user-images.githubusercontent.com/");
+		yourList.add("![preferences](https://user-images.githubusercontent.com/");
+		yourList.add("![image]");
+		yourList.add("![modification]");
+		yourList.add("![grafik]");
+		yourList.add("![preferences](https://user-images.githubusercontent.com/");
+		yourList.add("![preferences]");
+		
+		yourList.add("https://user-images.githubusercontent.com/");
+				
 		yourList.add("<!--  - All items with  [ ]  are still a TODO. - All items checked with  [x]  are done. - Remove items not applicable -->");
+		yourList.add("<!--  - All items with  [ ]  are still a TODO.");
+		yourList.add("<!--  - All items with");
+		yourList.add("[ ]  are still a TODO.");
+		yourList.add("All items checked with  [x]  are done.");
+		yourList.add("Remove items not applicable -->");
 		
 		yourList.add("Change in CHANGELOG.md described (if applicable)");
-		yourList.add("Tests created for changes (if applicable)");
+		yourList.add("Change in CHANGELOG.md described");
+		yourList.add("for bigger UI changes");
+
+
+		
 		yourList.add("Manually tested changed features in running JabRef (always required)");
-		yourList.add("Checked documentation");
-		yourList.add("https://docs.jabref.org/");
+		yourList.add("Manually tested changed features in running JabRef ");
+		
+		
 		yourList.add("Is the information available and up to date?"); 
+		
 		yourList.add("If not: Issue created at"); 
-		yourList.add("<https://github.com/JabRef/user-documentation/issues>"); 
 		yourList.add("Issue created for outdated help page at");
 		yourList.add("Internal SQ");
 		yourList.add("If you changed the localization: Did you run  gradle localizationUpdate");
 		yourList.add("Internal quality assurance");
-		yourList.add("Check documentation status");
-		yourList.add("Issue created for outdated help page at");
+		
+		
 		yourList.add("Replace copy and rename");
+		
 		yourList.add("expandFileName "); 
 		yourList.add("shortenFileName"); 
+		
 		yourList.add("Aux File listener? - [ ] introduce new paper folder?"); 
 		yourList.add("Look for all aux files in paper folder"); 
 		yourList.add("create icon inside groups menu/groups sidepane or under tools");
@@ -417,11 +512,13 @@ public class MainMapper {
 		yourList.add("Make  DatabaseChangeEvent  abstract and add subclasses according to  DatbaseChangeEvent");  
 		yourList.add("Rewrite the currently existing code to use that event bus instead of");  
 		yourList.add("net.sf.jabref.model.database.BibDatabase.addDatabaseChangeListener(DatabaseChangeListener)");  
-		yourList.add("net.sf.jabref.model.database.BibDatabase.removeDatabaseChangeListener(DatabaseChangeListener");
-		yourList.add("Changes in pull request outlined");
-		yourList.add("Tests green");
-		yourList.add("Commits squashed");
+		yourList.add("net.sf.jabref.model.database.BibDatabase.removeDatabaseChangeListener(DatabaseChangeListener)");
+		
 		yourList.add("Mostly GUI changes  testing makes not that much sense here");
+		yourList.add("Mostly GUI changes testing makes not that much sense here");
+		
+		
+
 		 
 		/*yourList.add("[x] Change in CHANGELOG.md described");
 		yourList.add("[x] Tests created for changes");
@@ -443,15 +540,14 @@ public class MainMapper {
 		yourList.add("[ x ] commits squashed?");
 		yourList.add("[ x ] changes in pull request outlined? (what  why  ...)"); */
 		
-		
-		yourList.add("(Issue created for outdated help page at");
-		yourList.add("for bigger UI changes");
-		
+		yourList.add("https://docs.jabref.org/");		
 		yourList.add("https://github.com/joelparkerhenderson/git_commit_message");
 		yourList.add("help.jabref.org");
 		yourList.add("https://github.com/JabRef/help.jabref.org/issues");
 		yourList.add("https://github.com/joelparkerhenderson/git_commit_message");
 		yourList.add("https://github.com/JabRef/help.jabref.org/issues");
+		yourList.add("<https://github.com/JabRef/user-documentation/issues>"); 
+		yourList.add("https://github.com/JabRef/user-documentation/issues"); 		
 		
 		//- [ ] Change in CHANGELOG.md described
 		//- [ ] Tests created for changes
@@ -561,8 +657,12 @@ public class MainMapper {
 		}
 		java = java.trim();
 		title = title.trim();
+		title = title.replaceAll("http.*?\\s", " ");
+		//title = removeUrl(title);
 		title = filter_text(title);
 		body = body.trim();
+		body = body.replaceAll("http.*?\\s", " ");
+		//body = removeUrl(body);
 		body = filter_text(body);
 		System.out.println("pr: "+pr+" , java: "+java + " title "+ title);
 		
