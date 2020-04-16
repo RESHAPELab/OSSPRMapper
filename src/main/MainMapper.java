@@ -79,9 +79,9 @@ public class MainMapper {
 			line = line + "pr";
 			ArrayList<String> dbGenerals = dao.getDistinctGenerals();
 			for (int k=0; k<dbGenerals.size(); k++) {
-				line = line + ","+dbGenerals.get(k);
+				line = line + ";"+dbGenerals.get(k);
 			}
-			line = line + ",Title,Body\n";
+			line = line + ";Title;Body\n";
 			bw.write(line);
 			
 			// end header
@@ -327,6 +327,9 @@ public class MainMapper {
 	private String filter_text(String str) {
 		// TODO Auto-generated method stub
 		String newstr = str.toLowerCase();
+		newstr = newstr.trim();
+		newstr = newstr.replaceAll("http.*?\\s", " ");
+		//newstr = removeUrl(newstr);
 		
 		ArrayList <String> yourList = new ArrayList();
 		yourList.add("[WIP]");
@@ -477,8 +480,9 @@ public class MainMapper {
 		yourList.add("<!--  - All items with  [ ]  are still a TODO. - All items checked with  [x]  are done. - Remove items not applicable -->");
 		yourList.add("<!--  - All items with  [ ]  are still a TODO.");
 		yourList.add("<!--  - All items with");
-		yourList.add("[ ]  are still a TODO.");
-		yourList.add("All items checked with  [x]  are done.");
+		yourList.add("are still a TODO.");
+		yourList.add("All items checked with");
+		yourList.add("are done");
 		yourList.add("Remove items not applicable -->");
 		
 		yourList.add("Change in CHANGELOG.md described (if applicable)");
@@ -656,13 +660,8 @@ public class MainMapper {
 			System.out.println("debug");
 		}
 		java = java.trim();
-		title = title.trim();
-		title = title.replaceAll("http.*?\\s", " ");
-		//title = removeUrl(title);
 		title = filter_text(title);
-		body = body.trim();
-		body = body.replaceAll("http.*?\\s", " ");
-		//body = removeUrl(body);
+		
 		body = filter_text(body);
 		System.out.println("pr: "+pr+" , java: "+java + " title "+ title);
 		
