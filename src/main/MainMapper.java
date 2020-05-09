@@ -16,6 +16,7 @@ import java.util.regex.Pattern;
 import DAO.FileDAO;
 import model.Apriori;
 import model.AprioriNew;
+import model.PrIssue;
 
 public class MainMapper {
 	private String user = "postgres";
@@ -33,6 +34,18 @@ public class MainMapper {
 	private String bin = null;
 	private ArrayList<AprioriNew> apns = new ArrayList<AprioriNew>();
 	private String classes = null;
+	
+	private String prRes = "";
+	private String issue = "";
+	private String issueTitle = "";
+	private String issueBody = "";
+	private String issueComments = ""; 
+	private String issueTitleLink = "";
+	private String issueBodyLink = "";
+	private String issueCommentsLink = ""; 
+	private int isPR = 0; 
+	private int isTrain = 0; 
+	private String commitMessage = ""; 
 
 
 	public static void main(String[] args) {
@@ -57,8 +70,8 @@ public class MainMapper {
 		bin = args[8];
 		classes = args[9];
 		if (isOnlyCSV==1) {
-			getPrs();
-			genBinaryExit();
+			getPrs(); // apriori body title
+			genBinaryExit(); //binary body title
 		}
 		else {
 			readData();
@@ -77,6 +90,7 @@ public class MainMapper {
 			FileDAO dao = FileDAO.getInstancia(db, user, pswd);
 			// write header
 			line = line + "pr";
+			// all general classifications possible
 			ArrayList<String> dbGenerals = dao.getDistinctGenerals();
 			for (int k=0; k<dbGenerals.size(); k++) {
 				line = line + ";"+dbGenerals.get(k);
@@ -87,6 +101,7 @@ public class MainMapper {
 			// end header
 			boolean found = false;
 			int pr = 0;
+			// find classification for each PR
 			for (int i=0; i<apns.size(); i++) {
 				AprioriNew apnAux = apns.get(i);
 				ArrayList<String> gs = apnAux.getGenerals();
@@ -96,6 +111,7 @@ public class MainMapper {
 				
 				ArrayList<String> printLine = new ArrayList();			
 				
+				// Search for labels to after use zeros and ones
 				for (int t=0; t<dbGenerals.size(); t++) {
 					for (int j=0; j<gs.size(); j++) {
 						if (gs.get(j).equals(dbGenerals.get(t))){
@@ -119,9 +135,12 @@ public class MainMapper {
 				{
 					System.out.println("Debug");
 				}
+				// add zeros and ones to line to print
 				for (int j=0; j<printLine.size(); j++) {
 					line = line + ";"+printLine.get(j);
 				}
+				
+				// fill PT title and body
 				ArrayList<String> result = dao.getTitleBody(pr);
 				String title = result.get(0);
 				String body = result.get(1);
@@ -132,6 +151,68 @@ public class MainMapper {
 					body="";
 				}
 				line = line + ";"+title+ ";"+body;// title and body
+				
+				// get issues
+				ArrayList<PrIssue> linkedIssues = dao.getIssues(pr);
+				
+				if (linkedIssues.size()==1) {
+					PrIssue pri = new PrIssue();
+					pri = linkedIssues.get(0);
+					 
+					prRes = pri.getPr();
+					 issue = pri.getIssue();
+					 issueTitle = pri.getIssueTitle();
+					 issueBody = pri.getIssueBody();
+					 issueComments  = pri.getIssueComments();
+					 issueTitleLink = pri.getIssueTitleLink();
+					 issueBodyLink  = pri.getIssueBodyLink();
+					 issueCommentsLink  = pri.getIssueCommentsLink();
+					 isPR   = pri.getIsPR();
+					 
+					 isTrain = pri.getIsTrain();   
+					 commitMessage  = pri.getCommitMessage();
+
+				} else {
+					// initialize to accumulate
+					  prRes = "";
+					  issue = "";
+					  issueTitle = "";
+					  issueBody = "";
+					  issueComments = ""; 
+					  issueTitleLink = "";
+					  issueBodyLink = "";
+					  issueCommentsLink = ""; 
+					  isPR = 0; 
+					  isTrain = 0; 
+					  commitMessage = ""; 
+					  
+					for (int t=0; t<linkedIssues.size(); t++) {
+						PrIssue pri = new PrIssue();
+						pri = linkedIssues.get(t);
+
+						 prRes = pri.getPr(); // pr do not acc
+						 
+						 issue += " "+ pri.getIssue();// do not acc
+						 issueTitle =  pri.getIssueTitle();// do not acc
+						 issueBody = pri.getIssueBody();// do not acc
+						 issueComments  = pri.getIssueComments();// do not acc
+						 
+						 issueTitleLink += "|=|" +pri.getIssueTitleLink();
+						 issueBodyLink  += "|=|" +pri.getIssueBodyLink();
+						 issueCommentsLink  += "|=|" +pri.getIssueCommentsLink();
+						 
+						 isPR   = pri.getIsPR(); // do not acc
+						 
+						 isTrain = pri.getIsTrain();   // do not acc
+						 
+						 commitMessage  = pri.getCommitMessage(); // do not acc
+						
+					
+					}
+				}
+				// concatenate issue data in line
+				line = line + ";" +prRes+";"+ issue+";"+  issueTitle+";"+  issueBody+";"+  issueComments+";"+   issueTitleLink+";"+  issueBodyLink+";"+  issueCommentsLink+";"+   isPR+";"+    isTrain+";"+    commitMessage ;
+
 				line = line + "\n";
 				bw.write(line);
 				line = "";
