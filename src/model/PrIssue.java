@@ -12,6 +12,13 @@ public class PrIssue {
 	private int isPR = 0; 
 	private int isTrain = 0; 
 	private String commitMessage = "";
+	private String prComments = "";
+	public String getPrComments() {
+		return prComments;
+	}
+	public void setPrComments(String prComments) {
+		this.prComments = prComments;
+	}
 	public PrIssue() {
 		super();
 		// TODO Auto-generated constructor stub

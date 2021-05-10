@@ -239,6 +239,7 @@ public class FileDAO {
 		 int isPR = 0; 
 		 int isTrain = 0; 
 		 String commitMessage = ""; 
+		 String prComments = "";
 		String col = null;
 		ArrayList<PrIssue> result = new ArrayList();
 		
@@ -246,7 +247,7 @@ public class FileDAO {
 			Statement comandoSql = con.createStatement();
 			
 			//String sql = "select general from file a, \"file_API\" b, \"API_specific\" c where a.file_name = b.file_name and c.api_name_fk = b.api_name and a.full_name like '%"+ java + "%' GROUP BY c.general"; 
-			String sql   = "select pr,issue,issue_title,issue_body,issue_comments,issue_title_linked,issue_body_linked,issue_comments_linked,is_train,commit_message,is_pr from pr_issue where pr = '"+pr+"'" ;
+			String sql   = "select pr,issue,issue_title,issue_body,issue_comments,issue_title_linked,issue_body_linked,issue_comments_linked,is_train,commit_message,is_pr, pr_comments from pr_issue where pr = '"+pr+"'" ;
 			//String sql = "select pr,issue, issueTitle, issueBody, issueComments,  issueTitleLink, issueBodyLink, issueCommentsLink,  isPR,   isTrain,   commitMessage " + 
 					//" from pr_issue where pr = '"+pr+"'" ;
 			
@@ -270,6 +271,7 @@ public class FileDAO {
 				 isTrain   = Integer.parseInt(rs.getString(9));
 				 commitMessage  = rs.getString(10);
 				 isPR   = Integer.parseInt(rs.getString(11));
+				 prComments  = rs.getString(12);
 				 
 				 PrIssue pri = new PrIssue();
 				 pri.setCommitMessage(commitMessage);
@@ -282,6 +284,7 @@ public class FileDAO {
 				 pri.setIssueTitle(issueTitle);
 				 pri.setIssueTitleLink(issueTitleLink);
 				 pri.setIsTrain(isTrain);
+				 pri.setPrComments(prComments);
 				 result.add(pri);
 				
 				

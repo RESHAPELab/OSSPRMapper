@@ -45,7 +45,8 @@ public class MainMapper {
 	private String issueCommentsLink = ""; 
 	private int isPR = 0; 
 	private int isTrain = 0; 
-	private String commitMessage = ""; 
+	private String commitMessage = "";
+	private String prComments = ""; 
 
 
 	public static void main(String[] args) {
@@ -87,6 +88,7 @@ public class MainMapper {
 			BufferedWriter bw = new BufferedWriter(osw);
 	    	//bw.write("header \n");
 			String line = "";
+			String beginning = "";
 			FileDAO dao = FileDAO.getInstancia(db, user, pswd);
 			// write header
 			line = line + "pr";
@@ -95,7 +97,8 @@ public class MainMapper {
 			for (int k=0; k<dbGenerals.size(); k++) {
 				line = line + ";"+dbGenerals.get(k);
 			}
-			line = line + ";Title;Body\n";
+			line = line + ";Title;Body;prIssue;issue;issueTitle;issueBody;issueComments;issueTitleLink;issueBodyLink;issueCommentsLink;isPR;isTrain;commitMessage;Comments\n";
+					
 			bw.write(line);
 			
 			// end header
@@ -139,7 +142,7 @@ public class MainMapper {
 				for (int j=0; j<printLine.size(); j++) {
 					line = line + ";"+printLine.get(j);
 				}
-				
+				beginning = line;
 				// fill PT title and body
 				ArrayList<String> result = dao.getTitleBody(pr);
 				String title = result.get(0);
@@ -150,12 +153,12 @@ public class MainMapper {
 				if(body.equals("nan")) {
 					body="";
 				}
-				line = line + ";"+title+ ";"+body;// title and body
+				//line = line + ";"+title+ ";"+body;// title and body
 				
 				// get issues
 				ArrayList<PrIssue> linkedIssues = dao.getIssues(pr);
 				
-				if (linkedIssues.size()==1) {
+				if (linkedIssues.size()==1) { 
 					PrIssue pri = new PrIssue();
 					pri = linkedIssues.get(0);
 					 
@@ -168,54 +171,81 @@ public class MainMapper {
 					 issueBodyLink  = pri.getIssueBodyLink();
 					 issueCommentsLink  = pri.getIssueCommentsLink();
 					 isPR   = pri.getIsPR();
-					 
+				 
 					 isTrain = pri.getIsTrain();   
 					 commitMessage  = pri.getCommitMessage();
+					 prComments = pri.getPrComments();
+					 line = line + ";"+title+ ";"+body;
+					 line = line + ";" +prRes+";"+ issue+";"+  issueTitle+";"+  
+					 issueBody+";"+  issueComments+";"+   issueTitleLink+";"+  issueBodyLink+";"+  issueCommentsLink+";"+   isPR+";"+    isTrain+";"+    commitMessage +";"+ prComments ;
+					line = line + "\n";
+					bw.write(line);
+					line = "";
 
-				} else {
+				} else { // to generate one pr line with all issues together
 					// initialize to accumulate
-					  prRes = "";
-					  issue = "";
-					  issueTitle = "";
-					  issueBody = "";
-					  issueComments = ""; 
-					  issueTitleLink = "";
-					  issueBodyLink = "";
-					  issueCommentsLink = ""; 
-					  isPR = 0; 
-					  isTrain = 0; 
-					  commitMessage = ""; 
-					  
-					for (int t=0; t<linkedIssues.size(); t++) {
-						PrIssue pri = new PrIssue();
-						pri = linkedIssues.get(t);
+					if (linkedIssues.size()==0) { 
+						  prRes = "";
+						  issue = "";
+						  issueTitle = "";
+						  issueBody = "";
+						  issueComments = ""; 
+						  issueTitleLink = "";
+						  issueBodyLink = "";
+						  issueCommentsLink = ""; 
+						  isPR = 1; 
+						  isTrain = 0; 
+						  commitMessage = ""; 
+						  prComments = ""; 
+							 line = line + ";"+title+ ";"+body;
+							 line = line + ";" +prRes+";"+ issue+";"+  issueTitle+";"+  
+							 issueBody+";"+  issueComments+";"+   issueTitleLink+";"+  issueBodyLink+";"+  issueCommentsLink+";"+   isPR+";"+    isTrain+";"+    commitMessage +";"+ prComments ;
+							line = line + "\n";
+							bw.write(line);
+							line = "";
+	
+					}
+					else {
+						  if (pr==452) {
+							  System.out.println("debug");
+						  }
+						  
+						 for (int t=0; t<linkedIssues.size(); t++) { //// to generate one pr line with all issues together
+								PrIssue pri = new PrIssue();
+								pri = linkedIssues.get(t);
+		
+								 prRes = pri.getPr(); // pr do not acc
+								 
+								 issue =  pri.getIssue();
+								 issueTitle =  pri.getIssueTitle();// do not acc
+								 issueBody = pri.getIssueBody();// do not acc
+								 issueComments  = pri.getIssueComments();// do not acc
+								 
+								 issueTitleLink = pri.getIssueTitleLink();
+								 issueBodyLink  =  pri.getIssueBodyLink();
+								 issueCommentsLink  = pri.getIssueCommentsLink();
+								 
+								 isPR   = pri.getIsPR(); // do not acc
+								 
+								 isTrain = pri.getIsTrain();   // do not acc
+								 
+								 commitMessage  = pri.getCommitMessage(); // do not acc
+								 prComments = pri.getPrComments(); // do not acc
+								 line = beginning + ";"+title+ ";"+body;// title and body
+								 line = line + ";" +prRes+";"+ issue+";"+  issueTitle+";"+  issueBody+";"+  issueComments+";"+   issueTitleLink+";"+  issueBodyLink+";"+  issueCommentsLink+";"+   isPR+";"+    isTrain+";"+    commitMessage +";"+ prComments ;
+								line = line + "\n";
+								bw.write(line);
+								line = "";
 
-						 prRes = pri.getPr(); // pr do not acc
-						 
-						 issue += " "+ pri.getIssue();// do not acc
-						 issueTitle =  pri.getIssueTitle();// do not acc
-						 issueBody = pri.getIssueBody();// do not acc
-						 issueComments  = pri.getIssueComments();// do not acc
-						 
-						 issueTitleLink += "|=|" +pri.getIssueTitleLink();
-						 issueBodyLink  += "|=|" +pri.getIssueBodyLink();
-						 issueCommentsLink  += "|=|" +pri.getIssueCommentsLink();
-						 
-						 isPR   = pri.getIsPR(); // do not acc
-						 
-						 isTrain = pri.getIsTrain();   // do not acc
-						 
-						 commitMessage  = pri.getCommitMessage(); // do not acc
-						
-					
+						 }
 					}
 				}
 				// concatenate issue data in line
-				line = line + ";" +prRes+";"+ issue+";"+  issueTitle+";"+  issueBody+";"+  issueComments+";"+   issueTitleLink+";"+  issueBodyLink+";"+  issueCommentsLink+";"+   isPR+";"+    isTrain+";"+    commitMessage ;
+				//line = line + ";" +prRes+";"+ issue+";"+  issueTitle+";"+  issueBody+";"+  issueComments+";"+   issueTitleLink+";"+  issueBodyLink+";"+  issueCommentsLink+";"+   isPR+";"+    isTrain+";"+    commitMessage +";"+ prComments ;
 
-				line = line + "\n";
-				bw.write(line);
-				line = "";
+				//line = line + "\n";
+				//bw.write(line);
+				//line = "";
 	    	}
 	    	bw.close();
 		} catch (FileNotFoundException e) {
