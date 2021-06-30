@@ -30,15 +30,17 @@ public class FileDAO {
 		return instancia;
 	}
 	
-	public ArrayList<String> buscaAPI(String pr,String java){
+	public ArrayList<String> buscaAPI(String pr,String java, String projectName){
+		
 		Connection con = DBUtil.getConnection(dbcon, user, pswd);
+		ArrayList<String> es = new ArrayList<String>();
 		ArrayList<String> gs = new ArrayList<String>();
 		boolean found = false;
+		
 		try {
 			Statement comandoSql = con.createStatement();
 			
-			//String sql = "select general from file a, \"file_API\" b, \"API_specific\" c where a.file_name = b.file_name and c.api_name_fk = b.api_name and a.full_name like '%"+ java + "%' GROUP BY c.general"; 
-			String sql = "select general from file a, \"file_API\" b, \"API_specific\" c where a.full_name = b.file_name and c.api_name_fk = b.api_name and a.file_name like '%"+ java + "%' GROUP BY c.general";
+			String sql = "select expert, general from file a, \"file_API\" b, \"API_specific\" c where a.full_name = b.file_name and c.api_name_fk = b.api_name and a.project = '"+ projectName +"' and a.file_name like '%"+ java + "%' GROUP BY c.expert, c.general";			
 			
 			System.out.println(sql);
 			
@@ -161,7 +163,7 @@ public class FileDAO {
 			Statement comandoSql = con.createStatement();
 			
 			//String sql = "select general from file a, \"file_API\" b, \"API_specific\" c where a.file_name = b.file_name and c.api_name_fk = b.api_name and a.full_name like '%"+ java + "%' GROUP BY c.general"; 
-			String sql = "select title, body from pr where pr ="+ pr ;
+			String sql = "select title, body from pr where pr = "+ pr ;
 			
 			System.out.println(sql);
 			

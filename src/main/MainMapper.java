@@ -281,9 +281,9 @@ public class MainMapper {
 		//System.out.println("Read: "+s);
 		ArrayList<String> api = null;
 		while (s != null) {
-			System.out.println("linha:"+s);
+			System.out.println("\nlinha:"+s);
 			splitLine(s);
-			api = findAPI(pr,java);
+			api = findAPI(pr, java, project);
 			if (api==null)
 				System.out.println("not found in jabref: "+pr+"  - "+java);
 			else {
@@ -723,12 +723,12 @@ public class MainMapper {
 	}
 
 
-	private ArrayList<String> findAPI(String pr2, String java2) {
+	private ArrayList<String> findAPI(String pr2, String java2, String projectName) {
 		// TODO Auto-generated method stub
 		FileDAO fd = FileDAO.getInstancia(db,user,pswd);
-		ArrayList<String> gs = fd.buscaAPI(pr2, java2);
+		ArrayList<String> gs = fd.buscaAPI(pr2, java2, projectName);
 		if (gs==null) {
-			System.out.println("pr: "+pr+" - "+java+"not found in database!!!");
+			System.out.println("pr: "+pr+" - "+java+" not found in database!!!");
 		}
 		return gs;
 	}
@@ -774,7 +774,7 @@ public class MainMapper {
 		title = filter_text(title);
 		
 		body = filter_text(body);
-		System.out.println("pr: "+pr+" , java: "+java + " title "+ title);
+		System.out.println("pr: "+pr+" , java: "+java + " title: "+ title);
 		
 		isOk = true;
 		
