@@ -1,0 +1,14 @@
+INSTRUCTIONS
+------------
+
+This script uses CSVs containing general-expert classification mappings to produce SQL commands that will redefine
+database entries to match the redefinitions in the aforemention input CSVs. 
+
+It is set, at the moment, to append to the output file, allowing multiple runs of the program to output all of the
+commands to one file. Adjust that as needed in the function write_sql(). To define which columns of the input CSV
+to pay attention to, look at the first loop in create_cmd_str().
+
+The two inputs that we are using as of 06/25/2021 are in the inputs folder as of the time of writing, but can also
+be found here:
+   - https://docs.google.com/spreadsheets/d/1O7owzWU2ONp2ojsGCLOwKClVe4DHQHlqsuzT7yuC6Ys/edit#gid=1460560204
+   - https://drive.google.com/file/d/11ijDx77h5sxb4n0ATg6DBw4PiucjcuUY/view
