@@ -30,50 +30,60 @@ public class FileDAO {
 		return instancia;
 	}
 	
-	public ArrayList<String> buscaAPI(String pr,String java, String projectName){
-		
+	public ArrayList<String> buscaAPI(String pr,String java, String projectName)
+	{
 		Connection con = DBUtil.getConnection(dbcon, user, pswd);
-		ArrayList<String> gs = new ArrayList<String>();
+		ArrayList<String> es = new ArrayList<String>();
 		boolean found = false;
 		
-		try {
+		try 
+		{
 			Statement comandoSql = con.createStatement();
 			
-			String sql = "select expert, general from file a, \"file_API\" b, \"API_specific\" c where a.full_name = b.file_name and c.api_name_fk = b.api_name and a.project = '"+ projectName +"' and a.file_name like '%"+ java + "%' GROUP BY c.expert, c.general";			
+			String sql = "select expert from file a, \"file_API\" b, \"API_specific\" c where a.full_name = b.file_name and c.api_name_fk = b.api_name and a.project = '"+ projectName +"' and a.file_name like '%"+ java + "%' GROUP BY c.expert";			
 			
 			System.out.println(sql);
 			
 			ResultSet rs = comandoSql.executeQuery(sql);
 			
-			String general = null;
+			String expert = null;
 			
-			
-			while(rs.next()){
-				general = rs.getString("expert");
-				gs.add(general);
-				found = true;
+			while(rs.next())
+			{
+				expert = rs.getString("expert");
+				System.out.println("expert string: " + expert);
+
+				if( expert != "Trash" )
+				{
+					es.add(expert);
+					System.out.println("expert array: " + es);
+					System.out.println("\n");
+					found = true;
+				}
+
 			}
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+		} 
+		catch (SQLException e) 
+		{
 			e.printStackTrace();
 		}
+
 		if (found)
-			return gs;
+			return es;
 		else
 			return null;
 		
 	}
 
-	public boolean insertApriori(String pr, String java, String general) {
+	public boolean insertApriori(String pr, String java, String expert, String project) {
 		// TODO Auto-generated method stub
 		Connection con = DBUtil.getConnection(dbcon, user, pswd);
-		ArrayList<String> gs = new ArrayList<String>();
 		
-		try {
+		try 
+		{
 			Statement comandoSql = con.createStatement();
 			
-			String sql = "insert into apriori values ("+pr+",'"+java+"'"+",'"+general+"')";
+			String sql = "insert into apriori (pr,java,expert,project) values ("+pr+",'"+java+"'"+",'"+expert+"', '"+project+"')";
 
 			System.out.println(sql);
 			
@@ -81,7 +91,7 @@ public class FileDAO {
 			
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 			return false;
 		}
@@ -89,14 +99,14 @@ public class FileDAO {
 
 	}
 	
-	public boolean insertPr(String pr, String title, String body) {
+	public boolean insertPr(String pr, String title, String body, String project) {
 		// TODO Auto-generated method stub
 		Connection con = DBUtil.getConnection(dbcon, user, pswd);
 		
 		try {
 			Statement comandoSql = con.createStatement();
 			
-			String sql = "insert into pr values ("+pr+",'"+title+"'"+",'"+body+"')";
+			String sql = "insert into pr values ("+pr+",'"+title+"'"+",'"+body+"', '"+project+"')";
 
 			System.out.println(sql);
 			
@@ -121,21 +131,21 @@ public class FileDAO {
 			Statement comandoSql = con.createStatement();
 			
 			//String sql = "select general from file a, \"file_API\" b, \"API_specific\" c where a.file_name = b.file_name and c.api_name_fk = b.api_name and a.full_name like '%"+ java + "%' GROUP BY c.general"; 
-			String sql = "select pr, a.general from apriori a GROUP BY pr, a.general order by pr";
+			String sql = "select pr, a.expert from apriori a GROUP BY pr, a.expert order by pr";
 			
 			System.out.println(sql);
 			
 			ResultSet rs = comandoSql.executeQuery(sql);
 			
-			String general = null;
+			String expert = null;
 			int pr = 0;
 			
 			
 			while(rs.next()){
-				general = rs.getString("general");
+				expert = rs.getString("expert");
 				pr = rs.getInt("pr");
 				Apriori ap = new Apriori();
-				ap.setGeneral(general);
+				ap.setGeneral(expert);
 				ap.setPr(pr);
 				prs.add(ap);
 				found = true;
@@ -247,10 +257,7 @@ public class FileDAO {
 		try {
 			Statement comandoSql = con.createStatement();
 			
-			//String sql = "select general from file a, \"file_API\" b, \"API_specific\" c where a.file_name = b.file_name and c.api_name_fk = b.api_name and a.full_name like '%"+ java + "%' GROUP BY c.general"; 
 			String sql   = "select pr,issue,issue_title,issue_body,issue_comments,issue_title_linked,issue_body_linked,issue_comments_linked,is_train,commit_message,is_pr, pr_comments from pr_issue where pr = '"+pr+"'" ;
-			//String sql = "select pr,issue, issueTitle, issueBody, issueComments,  issueTitleLink, issueBodyLink, issueCommentsLink,  isPR,   isTrain,   commitMessage " + 
-					//" from pr_issue where pr = '"+pr+"'" ;
 			
 			System.out.println(sql);
 			
@@ -300,4 +307,3 @@ public class FileDAO {
 	}
 	
 }
-
