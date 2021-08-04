@@ -1,10 +1,9 @@
 ### How to Run
 
 #### Args example
-![image](https://user-images.githubusercontent.com/59481467/127534855-18abc160-9df3-4acd-b44d-5775ddfb3ded.png)
+![image](https://user-images.githubusercontent.com/59481467/128212226-c3724885-a0dd-41e7-8779-b7d961c9bd02.png)
 
-
-#### Complementary source code
+#### Relevant source code
 
 		user        = args[0];
 		pswd        = args[1];
