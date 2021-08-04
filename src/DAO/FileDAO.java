@@ -122,7 +122,7 @@ public class FileDAO {
 
 	}
 
-	public ArrayList getAprioris() {
+	public ArrayList getAprioris( String project ) {
 		// TODO Auto-generated method stub
 		Connection con = DBUtil.getConnection(dbcon, user, pswd);
 		ArrayList<Apriori> prs = new ArrayList<Apriori>();
@@ -130,10 +130,14 @@ public class FileDAO {
 		try {
 			Statement comandoSql = con.createStatement();
 			
+<<<<<<< HEAD
+			String sql = "select pr, a.expert from apriori a where project = \'" + project + "\' GROUP BY pr, a.expert ORDER BY pr;";
+=======
 			//String sql = "select general from file a, \"file_API\" b, \"API_specific\" c where a.file_name = b.file_name and c.api_name_fk = b.api_name and a.full_name like '%"+ java + "%' GROUP BY c.general"; 
 			String sql = "select pr, a.expert from apriori a GROUP BY pr, a.expert order by pr";
+>>>>>>> 18981556b016fe3128de310029f1f97ffb4ded49
 			
-			System.out.println(sql);
+			System.out.println( sql + "\n" );
 			
 			ResultSet rs = comandoSql.executeQuery(sql);
 			
@@ -209,8 +213,7 @@ public class FileDAO {
 		try {
 			Statement comandoSql = con.createStatement();
 			
-			//String sql = "select general from file a, \"file_API\" b, \"API_specific\" c where a.file_name = b.file_name and c.api_name_fk = b.api_name and a.full_name like '%"+ java + "%' GROUP BY c.general"; 
-			String sql = "select distinct general from apriori ";
+			String sql = "select distinct expert from apriori ";
 			
 			System.out.println(sql);
 			

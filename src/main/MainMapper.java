@@ -60,21 +60,24 @@ public class MainMapper {
 
 	private void execute(String[] args) {
 		// TODO Auto-generated method stub
-		user = args[0];
-		pswd = args[1];
-		project = args[2];
-		db = args[3];
-		file = args[4];
-		csv = args[5];
-		isOnlyCSV = Integer.parseInt(args[6]);
-		separator = args[7];
-		bin = args[8];
-		classes = args[9];
-		if (isOnlyCSV==1) {
+		user 		= args[0];
+		pswd 		= args[1];
+		project 	= args[2];
+		db 			= args[3];
+		file 		= args[4];
+		csv 		= args[5];
+		isOnlyCSV 	= Integer.parseInt(args[6]);
+		separator 	= args[7];
+		bin 		= args[8];
+		classes 	= args[9];
+		
+		if (isOnlyCSV==1)
+		{
 			getPrs(); // apriori body title
 			genBinaryExit(); //binary body title
 		}
-		else {
+		else 
+		{
 			readData();
 		}
 	}
@@ -249,10 +252,8 @@ public class MainMapper {
 	    	}
 	    	bw.close();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -260,51 +261,69 @@ public class MainMapper {
 
 
 	private void readData() {
-		// TODO Auto-generated method stub
 		InputStream is = null;
-		try {
+
+		try 
+		{
 			is = new FileInputStream(file);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+		} 
+		catch (FileNotFoundException e) 
+		{
 			e.printStackTrace();
 		}
+
 	    InputStreamReader isr = new InputStreamReader(is);
 	    BufferedReader br = new BufferedReader(isr);
-	    String s = null;;
-		try {
+	    String s = null;
+
+	    // prime loop by gathering first string
+		try 
+		{
 			s = br.readLine();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		} 
+		catch (IOException e) 
+		{
 			e.printStackTrace();
 		}// primeira linha do arquivo
-		//String source = s;
-		//System.out.println("Read: "+s);
+
 		ArrayList<String> api = null;
-		while (s != null) {
-			System.out.println("\nlinha:"+s);
+
+		while (s != null)
+		{
+			System.out.println("\nLine: " + s);
 			splitLine(s);
 			api = findAPI(pr, java, project);
+
 			if (api==null)
-				System.out.println("not found in jabref: "+pr+"  - "+java);
-			else {
+				System.out.println("not found in " + project + ": " + pr + " - " + java);
+			else 
+			{
 				insertApriori(api);
 				insertPr();
 			}
-			try {
+
+			// try to 
+			try 
+			{
 				s = br.readLine();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
+			} 
+			catch (IOException e) 
+			{
 				e.printStackTrace();
 			}
 		}
+		
 		generateFile();
-		try {
+		
+		try 
+		{
 			br.close();
 			isr.close();
 			is.close();
 
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		} 
+		catch (IOException e) 
+		{
 			e.printStackTrace();
 		}
 
@@ -318,35 +337,56 @@ public class MainMapper {
 
 
 	private void getPrs() {
-		// TODO Auto-generated method stub
-		FileDAO fd = FileDAO.getInstancia(db,user,pswd);
-		ArrayList<Apriori> aps = fd.getAprioris();
 		
+		// get FileDAO obj
+		FileDAO fd = FileDAO.getInstancia( db, user, pswd );
+
+		// get PRs from database
+		ArrayList<Apriori> aps = fd.getAprioris( project );
 		
+		// if no PRs found in PR array
 		if (aps==null)
+		{
 			System.out.println("No apriori found!!!");
-		else {
-			int prAux = 0;
-			int pr = 0;
-			AprioriNew apn = new AprioriNew();
-			for (int i=0; i<aps.size(); i++) {
-				
+		}
+		else 
+		{
+			int prAux 		= 0;
+			int pr 		 	= 0;
+			
+			// create new Apriori obj
+			AprioriNew apn  = new AprioriNew();
+		
+			// loop through array of PRs
+			for( int i=0; i<aps.size(); i++ ) 
+			{	
+				// get PR object and PR num member variable (int) 
 				Apriori ap = aps.get(i);
 				pr = ap.getPr();
 				
-				if (i==0) { // first case treatment
+				// on first iteration, set new Apriori obj and prAux to 
+				// pr info from above
+				if( i==0 ) 
+				{ 
+					// first case treatment
 					apn.setPr(pr);
 					apn.insertGeneral(ap.getGeneral());
 					prAux = pr;
 				}
-				else {
-					
-					if (pr==prAux) {
+				else 
+				{
+					// if pr num is same as during last iteration 
+					if (pr==prAux) 
+					{
 						apn.insertGeneral(ap.getGeneral());
-						if (i+1==aps.size()) { // last case treatment
+						if (i+1==aps.size()) 
+						{ 
+							// last case treatment
 							apns.add(apn);
 						}
-					} else {
+					} 
+					else 
+					{
 						apns.add(apn);
 						
 						prAux = pr;
@@ -358,7 +398,10 @@ public class MainMapper {
 				}
 				
 			}
-			try {
+			
+			// write output
+			try 
+			{
 				FileOutputStream os = new FileOutputStream(csv);
 				OutputStreamWriter osw = new OutputStreamWriter(os);
 				BufferedWriter bw = new BufferedWriter(osw);
@@ -369,7 +412,10 @@ public class MainMapper {
 		    	//bw.write("header \n");
 				String line = "";
 				String lineClasses = "";
-				for (int i=0; i<apns.size(); i++) {
+				
+				
+				for (int i=0; i<apns.size(); i++) 
+				{
 					AprioriNew apnAux = apns.get(i);
 					ArrayList<String> gs = apnAux.getGenerals();
 					pr = apnAux.getPr();
@@ -386,11 +432,14 @@ public class MainMapper {
 							lineClasses = lineClasses + pr +";";
 							//line = line + ","+result.get(0)+ ","+result.get(1);// title and body
 							line = line + ","+title+ ","+body;// title and body
+							
 							if(apnAux.getPr()==18)
 							{
 								System.out.println("Debug");
 							}
-							for (int j=0; j<gs.size(); j++) {
+							
+							for (int j=0; j<gs.size(); j++) 
+							{
 								line = line + ","+gs.get(j);
 								if (j==(gs.size()-1))
 									
@@ -398,17 +447,21 @@ public class MainMapper {
 								else
 									lineClasses = lineClasses + gs.get(j)+"-";
 							}
+							
 							line = line + "\n";
 							lineClasses = lineClasses + "\n";
 							bw.write(line);
 							bwc.write(lineClasses);
 						}
 					}
+					
 					line = "";
 					lineClasses = "";
 		    	}
-		    	bw.close();
+		    	
+				bw.close();
 		    	bwc.close();
+		    	
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -698,12 +751,16 @@ public class MainMapper {
 	}
 
 
-	private void insertApriori(ArrayList<String> api) {
-		// TODO Auto-generated method stub
+	private void insertApriori(ArrayList<String> api) 
+	{
 		FileDAO fd = FileDAO.getInstancia(db,user,pswd);
-		for(int i = 0; i<api.size(); i++) {
-			boolean result = fd.insertApriori(pr, java, api.get(i));
-			if (!result) {
+
+		for(int i = 0; i<api.size(); i++) 
+		{
+			boolean result = fd.insertApriori(pr, java, api.get(i), project);
+			
+			if (!result) 
+			{
 				System.out.println("Insert apriori failed: "+ pr + " - "+ java + " - "+ api.get(i));
 			}
 		}
@@ -714,7 +771,7 @@ public class MainMapper {
 		// TODO Auto-generated method stub
 		FileDAO fd = FileDAO.getInstancia(db,user,pswd);
 		
-		boolean result = fd.insertPr(pr, title, body);
+		boolean result = fd.insertPr(pr, title, body, project);
 		if (!result) {
 				System.out.println("Insert pr failed: "+ pr + " - "+ title + " - "+ body);
 		}
@@ -724,9 +781,10 @@ public class MainMapper {
 
 
 	private ArrayList<String> findAPI(String pr2, String java2, String projectName) {
-		// TODO Auto-generated method stub
+
 		FileDAO fd = FileDAO.getInstancia(db,user,pswd);
 		ArrayList<String> gs = fd.buscaAPI(pr2, java2, projectName);
+
 		if (gs==null) {
 			System.out.println("pr: "+pr+" - "+java+" not found in database!!!");
 		}
@@ -735,41 +793,56 @@ public class MainMapper {
 
 
 	private boolean splitLine(String s) {
-		// TODO Auto-generated method stub
+
 		boolean isOk = false;
 		int comma = s.indexOf(separator);
-		if (comma == -1) {
+		
+		if (comma == -1) 
+		{
 			System.out.println(" line with problems:  first separator missing...");
 			return isOk;
 		}
+		
 		pr = s.substring(0, comma);
 		int comma1 = s.indexOf(separator, comma+1);
-		if (comma1 == -1) {
+		
+		if (comma1 == -1) 
+		{
 			System.out.println(" line with problems:  second separator missing...");
 			return isOk;
 		}
+		
 		java = s.substring(comma+1, comma1);
 		// get only the file name (because in the OSSParser that is filling the database without the last "/" before file name!!!)
 		int slash = java.lastIndexOf("/");
-		if (slash == -1) {
+		
+		if (slash == -1) 
+		{
 			System.out.println(" line with problems:  path slash missing...");
 			return isOk;
 		}
+		
 		java = java.substring(slash+1, java.length());
 		int comma2 = s.indexOf(separator, comma1+1);
-		if (comma2 == -1) {
+		
+		if (comma2 == -1) 
+		{
 			System.out.println(" line with problems:  third separator missing...");
 			return isOk;
 		}
+		
 		title = s.substring(comma1+1, comma2);
 		body = s.substring(comma2+1, s.length());
 		// get only the file name (because in the OSSParser that is filling the database without the last "/" before file name!!!)
 		//int slash = s.lastIndexOf("/");
 		//java = s.substring(slash+1, s.length());
 		pr = pr.trim();
-		if (pr.equals("884")||pr.contentEquals("96")) {
+		
+		if (pr.equals("884")||pr.contentEquals("96")) 
+		{
 			System.out.println("debug");
 		}
+		
 		java = java.trim();
 		title = filter_text(title);
 		
