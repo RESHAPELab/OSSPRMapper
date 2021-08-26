@@ -370,7 +370,7 @@ public class MainMapper {
 				{ 
 					// first case treatment
 					apn.setPr(pr);
-					apn.insertGeneral(ap.getGeneral());
+					apn.insertGeneral(ap.getGeneral()); // using the general field to store expert 
 					prAux = pr;
 				}
 				else 
@@ -761,7 +761,7 @@ public class MainMapper {
 			
 			if (!result) 
 			{
-				System.out.println("Insert apriori failed: "+ pr + " - "+ java + " - "+ api.get(i));
+				System.out.println("Insert apriori failed: "+project +" - "+ pr + " - "+ java + " - "+ api.get(i));
 			}
 		}
 		

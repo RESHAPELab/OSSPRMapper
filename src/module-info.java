@@ -1,3 +1,3 @@
-module OSSPRMapper {
+module OSSPRMapper2 {
 	requires java.sql;
 }

@@ -11,21 +11,21 @@ import model.Apriori;
 import model.PrIssue;
 import util.DBUtil;
 
-public class FileDAO {
-	private static FileDAO instancia;
+public class FileDAO_expert {
+	private static FileDAO_expert instancia;
 	private String dbcon;
 	private String user;
 	private String pswd;
 	
-	private FileDAO(String dbcon, String user, String pswd){
+	private FileDAO_expert(String dbcon, String user, String pswd){
 		this.dbcon = dbcon;
 		this.user = user;
 		this.pswd = pswd;
 	}
 	
-	public static FileDAO getInstancia(String dbcon, String user, String pswd){
+	public static FileDAO_expert getInstancia(String dbcon, String user, String pswd){
 		if (instancia == null){
-			instancia = new FileDAO(dbcon, user, pswd);
+			instancia = new FileDAO_expert(dbcon, user, pswd);
 		}
 		return instancia;
 	}

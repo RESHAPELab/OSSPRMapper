@@ -42,7 +42,7 @@ public class FileDAO {
 			
 			String sql = "select expert from file a, \"file_API\" b, \"API_specific\" c where a.full_name = b.file_name and c.api_name_fk = b.api_name and a.project = '"+ projectName +"' and a.file_name like '%"+ java + "%' GROUP BY c.expert";			
 			
-			System.out.println(sql);
+			//System.out.println(sql);
 			
 			ResultSet rs = comandoSql.executeQuery(sql);
 			
@@ -51,13 +51,13 @@ public class FileDAO {
 			while(rs.next())
 			{
 				expert = rs.getString("expert");
-				System.out.println("expert string: " + expert);
+				//System.out.println("expert string: " + expert);
 
 				if( expert != "Trash" )
 				{
 					es.add(expert);
-					System.out.println("expert array: " + es);
-					System.out.println("\n");
+					///System.out.println("expert array: " + es);
+					//System.out.println("\n");
 					found = true;
 				}
 
@@ -65,7 +65,7 @@ public class FileDAO {
 		} 
 		catch (SQLException e) 
 		{
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
 
 		if (found)
@@ -85,14 +85,14 @@ public class FileDAO {
 			
 			String sql = "insert into apriori (pr,java,expert,project) values ("+pr+",'"+java+"'"+",'"+expert+"', '"+project+"')";
 
-			System.out.println(sql);
+			//System.out.println(sql);
 			
 			comandoSql.executeUpdate(sql);
 			
 			
 		} catch (SQLException e) {
 
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 			return false;
 		}
 		return true;
@@ -115,7 +115,7 @@ public class FileDAO {
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 			return false;
 		}
 		return true;
@@ -130,12 +130,13 @@ public class FileDAO {
 		try {
 			Statement comandoSql = con.createStatement();
 			
-<<<<<<< HEAD
-			String sql = "select pr, a.expert from apriori a where project = \'" + project + "\' GROUP BY pr, a.expert ORDER BY pr;";
-=======
+//<<<<<<< HEAD
+			String sql = "select pr, a.expert from apriori a where project = \'" + project + "\' GROUP BY pr, a.expert ORDER BY pr";
+//======= select pr, a.expert from apriori a where project = 'jabref' GROUP BY pr, a.expert ORDER BY pr
+
 			//String sql = "select general from file a, \"file_API\" b, \"API_specific\" c where a.file_name = b.file_name and c.api_name_fk = b.api_name and a.full_name like '%"+ java + "%' GROUP BY c.general"; 
-			String sql = "select pr, a.expert from apriori a GROUP BY pr, a.expert order by pr";
->>>>>>> 18981556b016fe3128de310029f1f97ffb4ded49
+//			String sql = "select pr, a.expert from apriori a GROUP BY pr, a.expert order by pr";
+//>>>>>>> 18981556b016fe3128de310029f1f97ffb4ded49
 			
 			System.out.println( sql + "\n" );
 			
@@ -149,7 +150,7 @@ public class FileDAO {
 				expert = rs.getString("expert");
 				pr = rs.getInt("pr");
 				Apriori ap = new Apriori();
-				ap.setGeneral(expert);
+				ap.setGeneral(expert); // using the old general field to hold experts
 				ap.setPr(pr);
 				prs.add(ap);
 				found = true;
@@ -157,7 +158,7 @@ public class FileDAO {
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
 		if (found)
 			return prs;
@@ -195,7 +196,7 @@ public class FileDAO {
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
 		if (found)
 			return result;
@@ -230,7 +231,7 @@ public class FileDAO {
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
 		if (found)
 			return result;
@@ -303,7 +304,7 @@ public class FileDAO {
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
 		return result;
 			

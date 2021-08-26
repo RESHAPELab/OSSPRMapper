@@ -20,6 +20,7 @@ public class AprioriNew {
 		this.body = body;
 	}
 	private ArrayList<String> generals;
+	
 	public AprioriNew() {
 		super();
 		generals = new ArrayList<String>();
