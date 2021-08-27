@@ -167,7 +167,7 @@ public class FileDAO {
 	
 	}
 	
-	public ArrayList<String> getTitleBody(int pr){
+	public ArrayList<String> getTitleBody(int pr, String project){
 		Connection con = DBUtil.getConnection(dbcon, user, pswd);
 		String title = null;
 		String body = null;
@@ -177,7 +177,7 @@ public class FileDAO {
 			Statement comandoSql = con.createStatement();
 			
 			//String sql = "select general from file a, \"file_API\" b, \"API_specific\" c where a.file_name = b.file_name and c.api_name_fk = b.api_name and a.full_name like '%"+ java + "%' GROUP BY c.general"; 
-			String sql = "select title, body from pr where pr = "+ pr ;
+			String sql = "select title, body from pr where pr = "+ pr + " and project = '" + project + "'";
 			
 			System.out.println(sql);
 			
@@ -240,7 +240,7 @@ public class FileDAO {
 		
 	}
 
-	public ArrayList<PrIssue> getIssues(int pr) {
+	public ArrayList<PrIssue> getIssues(int pr, String project) {
 		// TODO Auto-generated method stub
 		Connection con = DBUtil.getConnection(dbcon, user, pswd);
 		 String prRes = "";
@@ -261,7 +261,8 @@ public class FileDAO {
 		try {
 			Statement comandoSql = con.createStatement();
 			
-			String sql   = "select pr,issue,issue_title,issue_body,issue_comments,issue_title_linked,issue_body_linked,issue_comments_linked,is_train,commit_message,is_pr, pr_comments from pr_issue where pr = '"+pr+"'" ;
+			String sql   = "select pr,issue,issue_title,issue_body,issue_comments,issue_title_linked,issue_body_linked,issue_comments_linked,is_train,commit_message,is_pr, pr_comments "
+					+ "from pr_issue where pr = '"+pr+"' and project = '" + project + "'" ;
 			
 			System.out.println(sql);
 			

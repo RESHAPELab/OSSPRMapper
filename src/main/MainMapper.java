@@ -147,7 +147,7 @@ public class MainMapper {
 				}
 				beginning = line;
 				// fill PT title and body
-				ArrayList<String> result = dao.getTitleBody(pr);
+				ArrayList<String> result = dao.getTitleBody(pr, project);
 				String title = result.get(0);
 				String body = result.get(1);
 				if(title.equals("nan")) {
@@ -159,7 +159,7 @@ public class MainMapper {
 				//line = line + ";"+title+ ";"+body;// title and body
 				
 				// get issues
-				ArrayList<PrIssue> linkedIssues = dao.getIssues(pr);
+				ArrayList<PrIssue> linkedIssues = dao.getIssues(pr, project);
 				
 				if (linkedIssues.size()==1) { 
 					PrIssue pri = new PrIssue();
@@ -420,7 +420,7 @@ public class MainMapper {
 					ArrayList<String> gs = apnAux.getGenerals();
 					pr = apnAux.getPr();
 					FileDAO dao = FileDAO.getInstancia(db, user, pswd);
-					ArrayList<String> result = dao.getTitleBody(pr);
+					ArrayList<String> result = dao.getTitleBody(pr, project);
 					String title = result.get(0);
 					String body = result.get(1);
 					if (title!=null&&!title.contentEquals("nan")&&!title.equals("NaN")&&!title.isEmpty()){
