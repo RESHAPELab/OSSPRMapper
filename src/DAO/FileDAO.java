@@ -40,7 +40,7 @@ public class FileDAO {
 		{
 			Statement comandoSql = con.createStatement();
 			
-			String sql = "select expert from file a, \"file_API\" b, \"API_specific\" c where a.full_name = b.file_name and c.api_name_fk = b.api_name and a.project = '"+ projectName +"' and a.file_name like '%"+ java + "%' GROUP BY c.expert";			
+			String sql = "select expert from file a, \"file_API\" b, \"API_specific\" c where a.full_name = b.file_name and c.api_name_fk = b.api_name and a.project = '"+ projectName +"' and a.file_name like '%"+ java + "%' and expert is not null GROUP BY c.expert";			
 			
 			//System.out.println(sql);
 			
@@ -108,14 +108,14 @@ public class FileDAO {
 			
 			String sql = "insert into pr values ("+pr+",'"+title+"'"+",'"+body+"', '"+project+"')";
 
-			System.out.println(sql);
+			//System.out.println(sql);
 			
 			comandoSql.executeUpdate(sql);
 			
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			System.out.println(e.getMessage());
+			//System.out.println(e.getMessage());
 			return false;
 		}
 		return true;
@@ -158,7 +158,7 @@ public class FileDAO {
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			System.out.println(e.getMessage());
+			//System.out.println(e.getMessage());
 		}
 		if (found)
 			return prs;

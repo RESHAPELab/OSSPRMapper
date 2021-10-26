@@ -47,6 +47,8 @@ public class MainMapper {
 	private int isTrain = 0; 
 	private String commitMessage = "";
 	private String prComments = ""; 
+	private String inDir = "";
+	private String outDir = "";
 
 
 	public static void main(String[] args) {
@@ -70,6 +72,19 @@ public class MainMapper {
 		separator 	= args[7];
 		bin 		= args[8];
 		classes 	= args[9];
+		inDir		= args[10];
+		outDir		= args[11];
+		
+		System.out.println("file: "+file);
+		System.out.println("db: "+db);
+		System.out.println("project: "+project);
+		System.out.println("csv: "+csv);
+		System.out.println("isOnlyCSV: "+isOnlyCSV);
+		System.out.println("separator: "+separator);
+		System.out.println("bin: "+bin);
+		System.out.println("classes: "+classes);
+		System.out.println("input dir: "+inDir);
+		System.out.println("output dir: "+outDir);
 		
 		if (isOnlyCSV==1)
 		{
@@ -86,7 +101,9 @@ public class MainMapper {
 	private void genBinaryExit() {
 		// TODO Auto-generated method stub
 		try {
-			FileOutputStream os = new FileOutputStream(bin);
+			FileOutputStream os = new FileOutputStream(outDir+project+"_"+bin);
+			System.out.println("Writing " + outDir+project+"_"+bin);
+
 			OutputStreamWriter osw = new OutputStreamWriter(os);
 			BufferedWriter bw = new BufferedWriter(osw);
 	    	//bw.write("header \n");
@@ -112,6 +129,9 @@ public class MainMapper {
 				AprioriNew apnAux = apns.get(i);
 				ArrayList<String> gs = apnAux.getGenerals();
 				pr = apnAux.getPr();
+				if (pr == 6450) {
+					System.out.println("debug");
+				}
 							
 				// order line in order of generals generals
 				
@@ -265,7 +285,8 @@ public class MainMapper {
 
 		try 
 		{
-			is = new FileInputStream(file);
+			is = new FileInputStream(inDir+project+"/"+file+project+".txt");
+			System.out.println("Reading " + inDir+project+"/"+file+project+".txt");
 		} 
 		catch (FileNotFoundException e) 
 		{
@@ -313,7 +334,7 @@ public class MainMapper {
 			}
 		}
 		
-		generateFile();
+		//generateFile(); //to generate apriori without the expert when isOnlyCSV = 0
 		
 		try 
 		{
@@ -402,7 +423,8 @@ public class MainMapper {
 			// write output
 			try 
 			{
-				FileOutputStream os = new FileOutputStream(csv);
+				FileOutputStream os = new FileOutputStream(outDir+project+"_"+csv);
+				System.out.println("Writing: "+outDir+project+"_"+csv);
 				OutputStreamWriter osw = new OutputStreamWriter(os);
 				BufferedWriter bw = new BufferedWriter(osw);
 				
@@ -843,6 +865,7 @@ public class MainMapper {
 			System.out.println("debug");
 		}
 		
+		java = java.replace("'","");
 		java = java.trim();
 		title = filter_text(title);
 		
