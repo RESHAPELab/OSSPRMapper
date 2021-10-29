@@ -27,7 +27,7 @@
 ##### Note on the isOnlyCsv arg:
 - if the isOnlyCSV argument receives
 
-    - 0: the program will read in the associated input (arg four, "file"), update the database (arg three, "db"), and generate the csv and classes output files (args five and nine, respectively). 
+    - 0: the program will read in the associated input (arg four, "file"), update the database tables apriori and pr (arg three, "db"), and generate the csv and classes output files (args five and nine, respectively). 
 
-    - 1: the program will generate the binary output file (arg eight, "bin") using the info in the database.
+    - 1: the program will generate the binary output file and the apriori file in the folder (arg eight, "bin") using the info in the database.
 
