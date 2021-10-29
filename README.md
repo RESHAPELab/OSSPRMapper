@@ -3,6 +3,8 @@
 #### Args example
 ![image](https://user-images.githubusercontent.com/59481467/128212226-c3724885-a0dd-41e7-8779-b7d961c9bd02.png)
 
+
+
 #### Relevant source code
 
 		user        = args[0];
@@ -23,6 +25,32 @@
 			readData();
 		}
 	}
+
+Updated arguments example:
+
+postgres
+
+123
+
+audacity
+
+audacity_cpp
+
+filesPR3BodyTitle2
+
+aprioriBodyTitle.csv
+
+1
+
+;
+
+binaryBodyTitle.csv
+
+PRClasses.txt
+
+/Users/fd252/OneDrive/Production/ETL1-Pipeline-main/data/outputs/new/
+
+/Users/fd252/OneDrive/Production/OSSPRMapper-master/outputs/
 
 ##### Note on the isOnlyCsv arg:
 - if the isOnlyCSV argument receives
