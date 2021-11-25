@@ -108,7 +108,7 @@ public class FileDAO {
 			
 			String sql = "insert into pr values ("+pr+",'"+title+"'"+",'"+body+"', '"+project+"')";
 
-			//System.out.println(sql);
+			System.out.println(sql);
 			
 			comandoSql.executeUpdate(sql);
 			
