@@ -29,7 +29,7 @@ PR table populated. (isOnlyCSV==0)
 binary files. (isOnlyCSV==1)
 
 Output examples:
-
+Look folder: OSSPRMapper/outputs/
 
 
 ### How to Run
