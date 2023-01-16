@@ -1,6 +1,7 @@
 OSSPRMapper is a dual goal java program used to update the database (PR table) with the files (source code files) updated by each PR and to write the binary files for the machine learning processing. 
 
 isOnlyCSV==0 -> It populates the PR table
+
 Requeriment: Parser should run before OSSPRMapper and tables file, file_APi and API should be populated. 
 https://github.com/NAU-OSL/openSourceParser
 Database should exist:
@@ -9,6 +10,7 @@ https://github.com/NAU-OSL/PipelineDB
 expert API evaluation should run before OSSPRMapper.
 
 isOnlyCSV==1 -> It writes the binary files
+
 Requeriment: ETL2, ETL1, Parser and OSSPRMapper with isOnlyCSV = 0 should run before OSSPRMapper with isOnlyCSV = 1.
 https://github.com/NAU-OSL/ETL2-Pipeline
 https://github.com/NAU-OSL/ETL1-Pipeline
@@ -18,10 +20,13 @@ For task's skills the program will update the PR table with pr, title, body and 
 For binary files genaration the programm will read the PR, PR_issues and apriori and api-specific tables to genenate the binary files. 
 
 Versions:
+
 For multi programming languages support (beyond java): 
 https://github.com/fabiojavamarcos/OSSPRMapper2 
+
 For Social metrics:
 https://github.com/fabiojavamarcos/OSSPRMapper2-social
+
 For authpor's skills:
 https://github.com/fabiojavamarcos/OSSPRMapper4
 
