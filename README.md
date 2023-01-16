@@ -1,3 +1,27 @@
+OSSPRMapper is a dual goal java program used to update the database (PR table) with the files (source code files) updated by each PR and to write the binary files for the machine learning processing. 
+
+isOnlyCSV==0 -> It populates the PR table
+isOnlyCSV==1 -> It writes the binary files
+
+For task's skills the program will update the PR table with pr, title, body and project. For the author's skills it also fills the column author. One database can hold data for many projects, however we recommend using separated databases for taks and author's skills.
+
+For binary files genaration the programm will read the PR, PR_issues and apriori and api-specific tables to genenate the binary files. 
+
+Input: 
+filesPR3BodyTitle2.txt 
+arguments described below. 
+
+Format example:
+https://1drv.ms/t/s!AguSR5HRUapeh6NLYXPq0gANf1k_cg?e=80cWFJ
+
+
+
+Output:
+PR table populated. (isOnlyCSV==0)
+binary files. (isOnlyCSV==1)
+
+
+
 ### How to Run
 
 #### Args example
