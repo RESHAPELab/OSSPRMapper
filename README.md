@@ -7,6 +7,14 @@ For task's skills the program will update the PR table with pr, title, body and 
 
 For binary files genaration the programm will read the PR, PR_issues and apriori and api-specific tables to genenate the binary files. 
 
+Versions:
+For multi programming languages support (beyond java): 
+https://github.com/fabiojavamarcos/OSSPRMapper2 
+For Social metrics:
+https://github.com/fabiojavamarcos/OSSPRMapper2-social
+For authpor's skills:
+https://github.com/fabiojavamarcos/OSSPRMapper4
+
 Input: 
 filesPR3BodyTitle2.txt 
 arguments described below. 
@@ -19,6 +27,8 @@ https://1drv.ms/t/s!AguSR5HRUapeh6NLYXPq0gANf1k_cg?e=80cWFJ
 Output:
 PR table populated. (isOnlyCSV==0)
 binary files. (isOnlyCSV==1)
+
+Output examples:
 
 
 
