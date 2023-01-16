@@ -4,8 +4,12 @@ isOnlyCSV==0 -> It populates the PR table
 
 Requeriment: Parser should run before OSSPRMapper and tables file, file_APi and API should be populated. 
 https://github.com/NAU-OSL/openSourceParser
+
 Database should exist:
 https://github.com/NAU-OSL/PipelineDB
+
+Namespaces should have parsed:
+https://github.com/fabiojavamarcos/parseAPIPath
 
 expert API evaluation should run before OSSPRMapper.
 
